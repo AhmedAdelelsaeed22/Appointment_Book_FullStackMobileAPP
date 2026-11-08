@@ -177,12 +177,6 @@ The project includes automated testing practices.
 - Appointment reminders.
 - Production deployment and CI/CD automation.
 
-## 👨‍💻 Author
-
-Ahmed Adel
-
-If you find this project useful or interesting, consider giving the repository a ⭐.
-
 ---
 
 ⭐ If you find this project interesting, feel free to explore the repository and give it a star!
