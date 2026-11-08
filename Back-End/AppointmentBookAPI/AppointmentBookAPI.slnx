@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../AppointmentBook.Data/AppointmentBook.Data.csproj" />
+  <Project Path="../AppointmentBook.Logic/AppointmentBook.Logic.csproj" />
+  <Project Path="../AppointmentBook.Test/AppointmentBook.Test.csproj" Id="fa588681-89f0-44ea-a3ee-050fcdcdfab2" />
+  <Project Path="AppointmentBookAPI.csproj" />
+</Solution>

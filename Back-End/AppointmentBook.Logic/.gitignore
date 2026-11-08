@@ -1,0 +1,114 @@
+﻿﻿# ================================
+# Visual Studio
+# ================================
+
+.vs/
+.vscode/
+
+# User-specific Visual Studio files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# ================================
+# Build Output
+# ================================
+
+[Bb]in/
+[Oo]bj/
+x64/
+x86/
+Debug/
+Release/
+
+# ================================
+# Visual Studio Test
+# ================================
+
+TestResults/
+*.trx
+
+# ================================
+# NuGet
+# ================================
+
+packages/
+*.nupkg
+*.snupkg
+
+# NuGet generated files
+project.assets.json
+project.nuget.cache
+
+# ================================
+# Logs
+# ================================
+
+*.log
+
+# ================================
+# Temporary files
+# ================================
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# ================================
+# Windows
+# ================================
+
+Thumbs.db
+Desktop.ini
+
+# ================================
+# Publish output
+# ================================
+
+publish/
+*.publishsettings
+
+# ================================
+# Code coverage
+# ================================
+
+coverage/
+*.coverage
+*.coveragexml
+
+# ================================
+# Database / local development
+# ================================
+
+*.db
+*.sqlite
+*.sqlite3
+
+# ================================
+# Secrets
+# ================================
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# User-specific local configuration
+appsettings.Development.json
+appsettings.Local.json
+
+# ================================
+# Rider / JetBrains
+# ================================
+
+.idea/
+*.sln.iml
+
+# ================================
+# OS generated files
+# ================================
+
+$RECYCLE.BIN/

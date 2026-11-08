@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "738539470201",
+    "project_id": "login-4d65b",
+    "storage_bucket": "login-4d65b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:738539470201:android:a3f383ab84348876cf03a8",
+        "android_client_info": {
+          "package_name": "com.example.appointmentbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "738539470201-i8fkhh0q0b6tui852pf3su3j2uib93t3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appointmentbook",
+            "certificate_hash": "9eb1a1d052e6a4832705693aa4e1de70f8a21c7b"
+          }
+        },
+        {
+          "client_id": "738539470201-u3cvulrk5cqp6o8vfpne6s8ss0br26gl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbu9NqqH4Xv9Sqw-nOg1zWnHMs-71cf0k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "738539470201-7kabsdci5eklo42agtc773gc7k6ssguv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "738539470201-q7ak03ur8kje4knfgsii6rsa7fpveomq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appointmentbook"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
