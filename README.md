@@ -179,10 +179,9 @@ The project includes automated testing practices.
 
 ## 👨‍💻 Author
 
-**Ahmed Adel El Saeed Mostafa**
+Ahmed Adel
 
-- GitHub: [Your GitHub Profile](https://github.com/)
-- LinkedIn: [Your LinkedIn Profile](https://www.linkedin.com/)
+If you find this project useful or interesting, consider giving the repository a ⭐.
 
 ---
 
