@@ -1,6 +1,7 @@
 import 'package:appointmentbook/models/chnage_password_request.dart';
 import 'package:appointmentbook/models/google_login_request.dart';
 import 'package:appointmentbook/models/login_response.dart';
+import 'package:appointmentbook/models/logout_request.dart';
 import 'package:appointmentbook/models/otp_verification_request.dart';
 import 'package:appointmentbook/models/refresh_token_request.dart';
 import 'package:appointmentbook/models/send_otp_request.dart';
@@ -83,5 +84,9 @@ class AuthRepository {
 
   Future<LoginResponse> loginWithGoogle(GoogleLoginRequest request) async {
     return await apiService.loginWithGoogle(request);
+  }
+
+  Future<void> logout(LogoutRequest request) async {
+    await apiService.logout(request);
   }
 }

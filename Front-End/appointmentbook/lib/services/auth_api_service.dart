@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:appointmentbook/models/chnage_password_request.dart';
 import 'package:appointmentbook/models/google_login_request.dart';
 import 'package:appointmentbook/models/login_response.dart';
+import 'package:appointmentbook/models/logout_request.dart';
 import 'package:appointmentbook/models/refresh_token_request.dart';
 import 'package:appointmentbook/models/send_otp_request.dart';
 import 'package:appointmentbook/models/otp_verification_request.dart';
@@ -26,8 +27,10 @@ class AuthApiService {
 
       return LoginResponse.fromJson(data);
     }
+    print('Status Code: ${response.statusCode}');
+    print('Error Response: ${response.body}');
 
-    throw Exception('Login failed: ${response.statusCode}');
+    throw Exception('Login failed: ${response.statusCode} - ${response.body}');
   }
 
   Future<LoginResponse?> refreshToken(RefreshTokenRequest request) async {
@@ -128,5 +131,22 @@ class AuthApiService {
       return LoginResponse.fromJson(data);
     }
     throw Exception('Google login failed: ${response.statusCode}');
+  }
+
+  Future<void> logout(LogoutRequest request) async {
+    final url = Uri.parse('$baseUrl/Auth/logout');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    print('Status Code: ${response.statusCode}');
+    print('Error Response: ${response.body}');
+    throw Exception('Logout failed. Status code: ${response.statusCode}');
   }
 }
