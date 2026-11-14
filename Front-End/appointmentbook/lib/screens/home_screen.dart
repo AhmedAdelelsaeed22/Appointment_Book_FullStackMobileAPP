@@ -1,8 +1,13 @@
+import 'package:appointmentbook/models/logout_request.dart';
 import 'package:appointmentbook/providers/user_provider.dart';
+import 'package:appointmentbook/repositories/auth_repository.dart';
 import 'package:appointmentbook/screens/business_screen.dart';
 import 'package:appointmentbook/screens/favorites_screen.dart';
+import 'package:appointmentbook/screens/login_screen.dart';
 import 'package:appointmentbook/screens/my_appointments_screen.dart';
 import 'package:appointmentbook/screens/profile_screen.dart';
+import 'package:appointmentbook/services/auth_api_service.dart';
+import 'package:appointmentbook/storage/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,6 +25,47 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  Future<void> _logout(BuildContext context) async {
+    try {
+      final tokenStorage = TokenStorage();
+
+      // Get the saved email and refresh token.
+      final email = await tokenStorage.getEmail();
+      final refreshToken = await tokenStorage.getRefreshToken();
+
+      if (email != null && refreshToken != null) {
+        final repository = AuthRepository(apiService: AuthApiService());
+
+        await repository.logout(
+          LogoutRequest(email: email, refreshToken: refreshToken),
+        );
+      }
+
+      // Clear local tokens after logout.
+      await tokenStorage.deleteTokens();
+
+      if (!context.mounted) return;
+
+      // Navigate to LoginScreen and remove previous screens.
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false,
+      );
+    } catch (e) {
+      // Even if the server is unavailable, clear local credentials.
+      await TokenStorage().deleteTokens();
+
+      if (!context.mounted) return;
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false,
+      );
+    }
+  }
+
   bool _isMenuOpen = false;
 
   void _toggleMenu() {
@@ -978,10 +1024,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 title: 'Logout',
                 iconColor: Colors.red,
                 textColor: Colors.red,
-                onTap: () {
-                  _closeMenu();
-                  _showMessage('Connect this action to your logout flow.');
-                },
+                onTap: () => _logout(context),
               ),
 
               const SizedBox(height: 12),

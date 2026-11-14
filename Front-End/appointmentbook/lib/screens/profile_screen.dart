@@ -1,6 +1,9 @@
 import 'package:appointmentbook/models/user_model.dart';
 import 'package:appointmentbook/providers/user_provider.dart';
 import 'package:appointmentbook/screens/change_password_screen.dart';
+import 'package:appointmentbook/screens/edit_user_screen.dart';
+import 'package:appointmentbook/screens/help_support_screen.dart';
+import 'package:appointmentbook/storage/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +15,54 @@ const Color _secondaryTextColor = Color(0xFF687386);
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
+
+  Future<void> _navigateToEditProfile(
+    BuildContext context,
+    WidgetRef ref,
+    UserModel user,
+  ) async {
+    // Get access token
+    final tokenStorage = TokenStorage();
+
+    final accessToken = await tokenStorage.getAccessToken();
+
+    if (!context.mounted) return;
+
+    // Check access token
+    if (accessToken == null || accessToken.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please login again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+      return;
+    }
+
+    // Navigate to EditUserScreen
+    final updatedUser = await Navigator.push<UserModel>(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            EditUserScreen(user: user, accessToken: accessToken),
+      ),
+    );
+
+    if (!context.mounted) return;
+
+    // Update Riverpod state
+    if (updatedUser != null) {
+      ref.read(userProvider.notifier).state = AsyncData(updatedUser);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile updated successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +92,7 @@ class ProfileScreen extends ConsumerWidget {
             return _buildEmptyState(context);
           }
 
-          return _buildProfile(context, user);
+          return _buildProfile(context, user, ref);
         },
       ),
     );
@@ -51,7 +102,7 @@ class ProfileScreen extends ConsumerWidget {
   // PROFILE CONTENT
   // ============================================================
 
-  Widget _buildProfile(BuildContext context, UserModel user) {
+  Widget _buildProfile(BuildContext context, UserModel user, WidgetRef ref) {
     final fullName = _displayValue(user.fullName);
     final firstName = _displayValue(user.firstName);
     final lastName = _displayValue(user.lastName);
@@ -248,10 +299,7 @@ class ProfileScreen extends ConsumerWidget {
           title: 'Edit Profile',
           subtitle: 'Update your personal information',
           onTap: () {
-            _showMessage(
-              context,
-              'Edit Profile screen is not implemented yet.',
-            );
+            _navigateToEditProfile(context, ref, user);
           },
         ),
 
@@ -278,7 +326,12 @@ class ProfileScreen extends ConsumerWidget {
           title: 'Help & Support',
           subtitle: 'Get help with AppointmentBook',
           onTap: () {
-            _showMessage(context, 'Help & Support is not implemented yet.');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HelpSupportScreen(),
+              ),
+            );
           },
         ),
       ],

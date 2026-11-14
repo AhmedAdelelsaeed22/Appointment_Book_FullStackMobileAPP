@@ -39,4 +39,23 @@ class UserModel {
       userRole: json['user_role'] ?? '',
     );
   }
+
+  // ============================================================
+  // TO JSON
+  // ============================================================
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': userId,
+      'first_name': firstName,
+      'last_name': lastName,
+      'email': email,
+      'phone': phone,
+      'password_hash': password,
+      'profile_image_url': image,
+      'is_active': isActive,
+      'created_at': createAt.toIso8601String(),
+      'user_role': userRole,
+    };
+  }
 }
