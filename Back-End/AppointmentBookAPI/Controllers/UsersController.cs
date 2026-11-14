@@ -194,7 +194,7 @@ namespace AppointmentBookAPI.Controllers
         // UPDATE USER
         // =========================
         // PUT: api/users/5
-        [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [HttpPut("UpdateUser/{id:long}", Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -202,7 +202,8 @@ namespace AppointmentBookAPI.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<ActionResult<UserDTO>> UpdateUser(
             long id,
-            [FromBody] UserDTO userDTO)
+            [FromBody] UserDTO userDTO,
+            [FromServices] IAuthorizationService authorizationService)
         {
 
 
@@ -288,6 +289,19 @@ namespace AppointmentBookAPI.Controllers
                 }
 
                 await Utilities.SaveLogs(Convert.ToInt64(_configuration["AdminIDs:ID"]), "Admin action succeeded for update user", "Information", _configuration["AdminEmails:Email"]!, HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown", _auditLogger);
+
+                var authResult = await authorizationService.AuthorizeAsync(
+                User,
+                 id,
+                "UserOwnerOrAdmin");
+
+                if (!authResult.Succeeded)
+                {
+                    await Utilities.SaveLogs(Convert.ToInt64(id), "Forbidden access.", "Warning", _configuration["AdminEmails:Email"]!, HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown", _auditLogger);
+                    return Forbid(); // 403
+                }
+
+
 
                 return Ok(user.UDTO);
             }
